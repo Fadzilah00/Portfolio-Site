@@ -1,0 +1,10 @@
+{
+  "name": "Aina Fadzilah - Portfolio",
+  "short_name": "Aina Portfolio",
+  "description": "Professional portfolio of Aina Fadzilah - UI/UX Designer, Software Tester, and Junior Developer",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0D9488",
+  "icons": []
+}
