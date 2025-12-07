@@ -1,7 +1,7 @@
 <template>
-  <header class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-white/95 via-blue-50/95 to-purple-50/95 dark:from-neutral-900/95 dark:via-blue-900/95 dark:to-purple-900/95 backdrop-blur-xl border-b border-gradient-to-r from-blue-200/50 via-purple-200/50 to-pink-200/50 dark:from-blue-700/50 dark:via-purple-700/50 dark:to-pink-700/50 shadow-2xl" style="position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; z-index: 50 !important;">
+  <header class="bg-gradient-to-r from-white/95 via-blue-50/95 to-purple-50/95 dark:from-neutral-900/95 dark:via-blue-900/95 dark:to-purple-900/95 backdrop-blur-xl border-b border-gradient-to-r from-blue-200/50 via-purple-200/50 to-pink-200/50 dark:from-blue-700/50 dark:via-purple-700/50 dark:to-pink-700/50 shadow-2xl">
     <!-- Animated Background -->
-    <div class="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 animate-pulse"></div>
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 animate-pulse"></div>
     
     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="flex items-center justify-between h-16">
@@ -15,18 +15,33 @@
           </a>
         </div>
 
-        <!-- Desktop Navigation -->
-        <div class="hidden md:block">
-          <div class="ml-10 flex items-baseline space-x-6">
+        <!-- Desktop Navigation + Search (kept together to avoid awkward gaps) -->
+        <div class="hidden md:flex items-center gap-4">
+          <div class="flex items-baseline space-x-4">
             <a v-for="item in navigation" :key="item.name" :href="item.href" 
                @click="scrollToSection(item.href)"
-               class="group relative text-neutral-600 dark:text-neutral-300 hover:text-purple-600 dark:hover:text-purple-400 px-4 py-2 rounded-xl text-sm font-medium not-italic transition-all duration-300 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 dark:hover:from-purple-900/30 dark:hover:to-blue-900/30 cursor-pointer overflow-hidden">
+               class="group relative text-neutral-600 dark:text-neutral-300 hover:text-purple-600 dark:hover:text-purple-400 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 dark:hover:from-purple-900/30 dark:hover:to-blue-900/30 cursor-pointer overflow-hidden">
               <!-- Animated background -->
               <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <!-- Floating dots -->
               <div class="absolute -top-1 -right-1 w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-bounce transition-all duration-300"></div>
               <span class="relative z-10">{{ item.name }}</span>
             </a>
+          </div>
+
+          <!-- Compact search input stays close to menu -->
+          <div class="hidden lg:flex items-center">
+            <div class="relative">
+              <input
+                v-model="searchQuery"
+                type="text"
+                placeholder="Search..."
+                class="w-44 rounded-2xl border border-purple-200/60 dark:border-purple-800/60 bg-white/70 dark:bg-neutral-800/70 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-200 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all"
+              />
+              <svg class="w-4 h-4 text-purple-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 18a7 7 0 100-14 7 7 0 000 14z" />
+              </svg>
+            </div>
           </div>
         </div>
 
@@ -76,6 +91,7 @@
 const { isDark, toggleTheme } = useTheme()
 
 const mobileMenuOpen = ref(false)
+const searchQuery = ref('')
 
 const navigation = [
   { name: 'Home', href: '#home' },

@@ -7,12 +7,12 @@
     "module": true,
     "resourceType": "script"
   },
-  "C:/Users/User/OneDrive/桌面/New portfolio/portfolio/node_modules/nuxt/dist/app/entry.js": {
+  "C:/Users/admin/Desktop/Intern/Portfolio-Site/node_modules/nuxt/dist/app/entry.js": {
     "resourceType": "script",
     "module": true,
     "prefetch": true,
     "preload": true,
     "isEntry": true,
-    "file": "C:/Users/User/OneDrive/桌面/New portfolio/portfolio/node_modules/nuxt/dist/app/entry.js"
+    "file": "C:/Users/admin/Desktop/Intern/Portfolio-Site/node_modules/nuxt/dist/app/entry.js"
   }
 }

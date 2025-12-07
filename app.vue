@@ -4,7 +4,7 @@
     <Header />
     
     <!-- Hero Section -->
-    <section id="home" class="min-h-screen max-h-screen flex items-center justify-center section-bg-1 relative overflow-hidden py-8 md:py-12 lg:py-16 section-spacing section-separator pt-16 md:pt-20 lg:pt-24" style="margin-bottom: 6rem;">
+    <section id="home" class="min-h-screen flex items-center justify-center section-bg-1 relative overflow-hidden py-8 md:py-12 lg:py-16 section-spacing section-separator pt-16 md:pt-20 lg:pt-24" style="margin-bottom: 6rem;">
       <!-- Clean Animated Background -->
       <div class="absolute inset-0 overflow-hidden">
         <!-- Subtle Circle 1 - Light Mode -->
@@ -89,7 +89,7 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-12 md:py-16 lg:py-24 section-spacing section-separator min-h-[80vh] max-h-[100vh]" style="margin-bottom: 6rem; margin-top: 2rem;">
+    <section id="about" class="py-12 md:py-16 lg:py-24 section-spacing section-separator min-h-[80vh]" style="margin-bottom: 6rem; margin-top: 2rem;">
 
       <div class="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 relative z-10">
         <div class="text-center mb-20">
@@ -165,93 +165,99 @@
     </section>
 
     <!-- Portfolio Section -->
-    <section id="portfolio" class="py-12 md:py-16 lg:py-24 section-bg-3 section-spacing section-separator min-h-[80vh] max-h-[100vh]" style="margin-bottom: 6rem; margin-top: 2rem;">
-      <div class="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16">
-        <div class="text-center mb-20">
-          <h2 class="text-5xl md:text-6xl font-bold mb-8 text-slate-800 dark:text-white">
-            My Work
-          </h2>
-          <p class="text-xl text-slate-600 dark:text-slate-300 max-w-4xl mx-auto leading-relaxed">
-            A showcase of my projects across UI/UX design, software testing, and web development.
+<section id="portfolio" class="py-12 md:py-16 lg:py-24 section-bg-3 section-spacing section-separator min-h-[80vh]" style="margin-bottom: 6rem; margin-top: 2rem;">
+  <div class="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16">
+    <div class="text-center mb-20">
+      <h2 class="text-5xl md:text-6xl font-bold mb-8 text-slate-800 dark:text-white">
+        My Work
+      </h2>
+      <p class="text-xl text-slate-600 dark:text-slate-300 max-w-4xl mx-auto leading-relaxed">
+        A showcase of my projects across UI/UX design, software testing, and web development.
+      </p>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="flex flex-wrap justify-center gap-6 mb-16">
+      <button
+        v-for="category in categories"
+        :key="category.value"
+        @click="activeCategory = category.value"
+        class="px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300"
+        :class="[
+          activeCategory === category.value
+            ? 'bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 text-white shadow-xl transform scale-105'
+            : 'bg-white/90 dark:bg-neutral-700/90 backdrop-blur-sm text-neutral-600 dark:text-neutral-400 hover:bg-gradient-to-r hover:from-purple-100 hover:via-pink-100 hover:to-blue-100 dark:hover:from-purple-900/20 dark:hover:via-pink-900/20 dark:hover:to-blue-900/20 hover:scale-105 shadow-lg hover:shadow-xl'
+        ]"
+      >
+        {{ category.label }}
+      </button>
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div
+        v-for="project in filteredProjects"
+        :key="project.id"
+        class="group bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:scale-105 border border-slate-200 dark:border-slate-700"
+      >
+        <component :is="project.liveUrl ? 'a' : 'div'"
+          :href="project.liveUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="aspect-video bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 flex items-center justify-center relative overflow-hidden"
+        >
+          <img 
+            :src="project.image" 
+            :alt="project.title"
+            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            @error="$event.target.style.display='none'; $event.target.nextElementSibling.style.display='flex'"
+          />
+          <div class="w-20 h-20 bg-gradient-to-br from-blue-500 via-indigo-500 to-slate-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-lg group-hover:scale-110 transition-transform duration-500" style="display: none;">
+            {{ project.title.charAt(0) }}
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-indigo-500/10 to-slate-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        </component>
+
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-full border border-blue-200 dark:border-blue-700">
+              {{ getCategoryLabel(project.category) }}
+            </span>
+            <div class="flex space-x-3">
+              <a v-if="project.liveUrl" :href="project.liveUrl" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-blue-500 transition-colors p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+              <a v-if="project.githubUrl" :href="project.githubUrl" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-indigo-500 transition-colors p-2 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/20">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+            {{ project.title }}
+          </h3>
+          <p class="text-slate-600 dark:text-slate-300 mb-4 text-sm leading-relaxed">
+            {{ project.description }}
           </p>
-        </div>
-
-        <!-- Filter Tabs -->
-        <div class="flex flex-wrap justify-center gap-6 mb-16">
-          <button
-            v-for="category in categories"
-            :key="category.value"
-            @click="activeCategory = category.value"
-            class="px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300"
-            :class="[
-              activeCategory === category.value
-                ? 'bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 text-white shadow-xl transform scale-105'
-                : 'bg-white/90 dark:bg-neutral-700/90 backdrop-blur-sm text-neutral-600 dark:text-neutral-400 hover:bg-gradient-to-r hover:from-purple-100 hover:via-pink-100 hover:to-blue-100 dark:hover:from-purple-900/20 dark:hover:via-pink-900/20 dark:hover:to-blue-900/20 hover:scale-105 shadow-lg hover:shadow-xl'
-            ]"
-          >
-            {{ category.label }}
-          </button>
-        </div>
-
-        <!-- Projects Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div
-            v-for="project in filteredProjects"
-            :key="project.id"
-            class="group bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:scale-105 border border-slate-200 dark:border-slate-700"
-          >
-            <div class="aspect-video bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 flex items-center justify-center relative overflow-hidden">
-              <img 
-                :src="project.image" 
-                :alt="project.title"
-                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                @error="$event.target.style.display='none'; $event.target.nextElementSibling.style.display='flex'"
-              />
-              <div class="w-20 h-20 bg-gradient-to-br from-blue-500 via-indigo-500 to-slate-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-lg group-hover:scale-110 transition-transform duration-500" style="display: none;">
-                {{ project.title.charAt(0) }}
-              </div>
-              <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-indigo-500/10 to-slate-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            </div>
-            <div class="p-6">
-              <div class="flex items-center justify-between mb-4">
-                <span class="text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-full border border-blue-200 dark:border-blue-700">
-                  {{ getCategoryLabel(project.category) }}
-                </span>
-                <div class="flex space-x-3">
-                  <a v-if="project.liveUrl" :href="project.liveUrl" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-blue-500 transition-colors p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </a>
-                  <a v-if="project.githubUrl" :href="project.githubUrl" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-indigo-500 transition-colors p-2 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/20">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-              <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                {{ project.title }}
-              </h3>
-              <p class="text-slate-600 dark:text-slate-300 mb-4 text-sm leading-relaxed">
-                {{ project.description }}
-              </p>
-              <div class="flex flex-wrap gap-2">
-                <span v-for="tech in project.techStack.slice(0, 3)" :key="tech" class="text-xs text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-600">
-                  {{ tech }}
-                </span>
-                <span v-if="project.techStack.length > 3" class="text-xs text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-600">
-                  +{{ project.techStack.length - 3 }} more
-                </span>
-              </div>
-            </div>
+          <div class="flex flex-wrap gap-2">
+            <span v-for="tech in project.techStack.slice(0, 3)" :key="tech" class="text-xs text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-600">
+              {{ tech }}
+            </span>
+            <span v-if="project.techStack.length > 3" class="text-xs text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-600">
+              +{{ project.techStack.length - 3 }} more
+            </span>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
     <!-- Skills Section -->
-    <section id="skills" class="py-12 md:py-16 lg:py-24 section-bg-1 section-spacing section-separator min-h-[80vh] max-h-[100vh]" style="margin-bottom: 6rem; margin-top: 2rem;">
+    <section id="skills" class="py-12 md:py-16 lg:py-24 section-bg-1 section-spacing section-separator min-h-[80vh]" style="margin-bottom: 6rem; margin-top: 2rem;">
       <div class="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16">
         <!-- Enhanced Header -->
         <div class="text-center mb-20">
@@ -345,7 +351,7 @@
     </section>
 
     <!-- Resume Section -->
-    <section id="resume" class="py-12 md:py-16 lg:py-24 section-spacing section-separator relative overflow-hidden min-h-[80vh] max-h-[100vh] dark:bg-gradient-to-br dark:from-slate-900 dark:via-blue-900 dark:to-indigo-900" style="margin-bottom: 6rem; margin-top: 2rem; background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 25%, #93c5fd 50%, #60a5fa 75%, #3b82f6 100%);">
+    <section id="resume" class="py-12 md:py-16 lg:py-24 section-spacing section-separator relative overflow-hidden min-h-[80vh] dark:bg-gradient-to-br dark:from-slate-900 dark:via-blue-900 dark:to-indigo-900" style="margin-bottom: 6rem; margin-top: 2rem; background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 25%, #93c5fd 50%, #60a5fa 75%, #3b82f6 100%);">
       <!-- Background Pattern -->
       <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-400/20 to-indigo-400/20 rounded-full -translate-y-32 translate-x-32"></div>
       <div class="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-cyan-400/20 to-blue-400/20 rounded-full translate-y-24 -translate-x-24"></div>
@@ -388,7 +394,23 @@
                     <span class="text-sm text-blue-300 font-semibold bg-blue-800/50 px-3 py-1 rounded-full">{{ exp.year }}</span>
                   </div>
                   <p class="text-blue-100 font-semibold mb-3 text-base">{{ exp.company }}</p>
-                  <p class="text-slate-300 text-sm leading-relaxed">{{ exp.description }}</p>
+                  <p class="text-slate-300 text-sm leading-relaxed mb-4">{{ exp.description }}</p>
+                  <!-- Clickable Links Section -->
+                  <div v-if="exp.links && exp.links.length > 0" class="flex flex-wrap gap-2 mt-4">
+                    <a 
+                      v-for="link in exp.links" 
+                      :key="link.name"
+                      :href="link.url" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center px-4 py-2 bg-blue-600/80 hover:bg-blue-500 text-white text-sm font-medium rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-lg"
+                    >
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                      {{ link.name }}
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -425,7 +447,7 @@
     </section>
 
     <!-- Gallery Section -->
-    <section id="gallery" class="py-12 md:py-16 lg:py-20 bg-gradient-to-br from-purple-50 via-pink-50 to-rose-50 dark:from-slate-900 dark:via-purple-900 dark:to-pink-900 min-h-[80vh] max-h-[100vh]" style="margin-bottom: 8rem; margin-top: 2rem;">
+    <section id="gallery" class="py-12 md:py-16 lg:py-20 bg-gradient-to-br from-purple-50 via-pink-50 to-rose-50 dark:from-slate-900 dark:via-purple-900 dark:to-pink-900 min-h-[80vh]" style="margin-bottom: 8rem; margin-top: 2rem;">
       <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         <!-- Enhanced Section Header -->
         <div class="text-center mb-20 animate-fade-in">
@@ -840,7 +862,7 @@
     </div>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-12 md:py-16 lg:py-24 bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-900 dark:via-slate-800 dark:to-blue-900 min-h-[80vh] max-h-[100vh]" style="margin-bottom: 8rem;">
+    <section id="contact" class="py-12 md:py-16 lg:py-24 bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-900 dark:via-slate-800 dark:to-blue-900 min-h-[80vh]" style="margin-bottom: 8rem;">
       <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         <!-- Section Header -->
         <div class="text-center mb-16">
@@ -979,7 +1001,8 @@
               <!-- Contact Methods - Horizontal Layout -->
               <div class="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-4">
                 <!-- Email Card -->
-                <a href="mailto:ainafadzilah@example.com" class="group flex flex-col items-center p-6 bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm rounded-2xl hover:bg-blue-50 dark:hover:bg-slate-600 transition-all duration-300 border border-white/50 dark:border-slate-600/50 hover:shadow-xl hover:scale-105 text-center no-underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 relative overflow-hidden">
+                <a href="mailto:ainatulfadzilah0634@gmail.com" class="group flex flex-col items-center p-6 bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm rounded-2xl hover:bg-blue-50 dark:hover:bg-slate-600 transition-all duration-300 border border-white/50 dark:border-slate-600/50 hover:shadow-xl hover:scale-105 text-center no-underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 relative overflow-hidden">
+            
                   <!-- Floating Animation -->
                   <div class="absolute top-2 right-2 w-3 h-3 bg-blue-400 rounded-full animate-ping opacity-75"></div>
                   <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:rotate-12">
@@ -998,7 +1021,7 @@
                 </a>
 
                 <!-- LinkedIn Card -->
-                <a href="https://linkedin.com/in/ainafadzilah" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center p-6 bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm rounded-2xl hover:bg-blue-50 dark:hover:bg-slate-600 transition-all duration-300 border border-white/50 dark:border-slate-600/50 hover:shadow-xl hover:scale-105 text-center no-underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 relative overflow-hidden">
+                <a href="https://www.linkedin.com/in/ainatul-fadzilah-89746b129/" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center p-6 bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm rounded-2xl hover:bg-blue-50 dark:hover:bg-slate-600 transition-all duration-300 border border-white/50 dark:border-slate-600/50 hover:shadow-xl hover:scale-105 text-center no-underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 relative overflow-hidden">
                   <!-- Floating Animation -->
                   <div class="absolute top-2 right-2 w-3 h-3 bg-blue-500 rounded-full animate-ping opacity-75"></div>
                   <div class="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:-rotate-12">
@@ -1017,7 +1040,7 @@
                 </a>
 
                 <!-- GitHub Card -->
-                <a href="https://github.com/ainafadzilah" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center p-6 bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm rounded-2xl hover:bg-blue-50 dark:hover:bg-slate-600 transition-all duration-300 border border-white/50 dark:border-slate-600/50 hover:shadow-xl hover:scale-105 text-center no-underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 relative overflow-hidden">
+                <a href="https://github.com/Fadzilah00" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center p-6 bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm rounded-2xl hover:bg-blue-50 dark:hover:bg-slate-600 transition-all duration-300 border border-white/50 dark:border-slate-600/50 hover:shadow-xl hover:scale-105 text-center no-underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 relative overflow-hidden">
                   <!-- Floating Animation -->
                   <div class="absolute top-2 right-2 w-3 h-3 bg-gray-600 rounded-full animate-ping opacity-75"></div>
                   <div class="w-16 h-16 bg-gradient-to-r from-gray-800 to-gray-900 rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:rotate-12">
@@ -1096,41 +1119,54 @@ let friendsSlideInterval = null
 let creativeSlideInterval = null
 
 // Gallery data with sample images
+// HOW TO CHANGE GALLERY IMAGES:
+// 1. Place your image files in the 'public/images/' folder
+// 2. Update the image paths below (e.g., '/images/your-image.jpg')
+// 3. You can add as many images as you want to each gallery category
+// 4. Supported formats: .jpg, .jpeg, .png, .webp, .gif
+// 
+// Example: If you add 'my-photo.jpg' to public/images/, use '/images/my-photo.jpg'
 const galleryData = {
   'work-study': {
     title: 'Work & Study',
     description: 'Coding sessions, learning new technologies, and working on projects',
     images: [
-      '/images/ACH1.jpg',
-      '/images/ACH2.jpg',
-      '/images/ACH3.jpg'
+      '/images/WRK1.jpg',
+      '/images/WRK2.jpg',
+      '/images/WRK3.jpg',
+      '/images/WRK4.jpg',
+      '/images/WRK5.jpg'
+      // Add more images here: '/images/your-image.jpg',
     ]
   },
   'hobbies': {
     title: 'Hobbies & Interests',
     description: 'Photography, reading, music, and exploring new places',
     images: [
-      '/images/ACH1.jpg',
-      '/images/ACH2.jpg',
-      '/images/ACH3.jpg'
+      '/images/HOB1.jpg',
+      '/images/HOB2.jpg',
+      '/images/HOB3.jpg'
+      // Add more images here: '/images/your-image.jpg',
     ]
   },
   'travel': {
     title: 'Travel & Adventure',
     description: 'Exploring new places, trying new foods, and creating memories',
     images: [
-      '/images/ACH1.jpg',
-      '/images/ACH2.jpg',
-      '/images/ACH3.jpg'
+      '/images/TRV1.jpg',
+      '/images/TRV2.jpg',
+      '/images/TRV3.jpg'
+      // Add more images here: '/images/your-image.jpg',
     ]
   },
   'friends': {
     title: 'Friends & Family',
     description: 'Quality time with loved ones, celebrations, and special moments',
     images: [
-      '/images/ACH1.jpg',
-      '/images/ACH2.jpg',
-      '/images/ACH3.jpg'
+      '/images/FRD1.jpg',
+      '/images/FRD2.jpg',
+      '/images/FRD3.jpg'
+      // Add more images here: '/images/your-image.jpg',
     ]
   },
   'achievements': {
@@ -1140,15 +1176,17 @@ const galleryData = {
       '/images/ACH1.jpg',
       '/images/ACH2.jpg',
       '/images/ACH3.jpg'
+      // Add more images here: '/images/your-image.jpg',
     ]
   },
   'creative': {
     title: 'Creative Projects',
     description: 'Design experiments, creative coding, and artistic explorations',
     images: [
-      '/images/ACH1.jpg',
-      '/images/ACH2.jpg',
-      '/images/ACH3.jpg'
+      '/images/DEV1.png',
+      '/images/DEV2.png',
+      '/images/UI2.png'
+      // Add more images here: '/images/your-image.jpg',
     ]
   }
 }
@@ -1284,22 +1322,36 @@ const experience = [
     id: 1,
     title: 'Software Testing Specialist',
     company: 'Tempb Global Technology Sdn Bhd',
-    year: '2025 - Present',
-    description: 'Conducted functional and UI testing for QQlink web and mobile applications. Identified bugs, documented results, and ensured optimal user experience.'
+    year: '2025 - Complete',
+    description: 'Conducted functional and UI testing for QQlink web and mobile applications. Identified bugs, documented results, and ensured optimal user experience.',
+    links: [
+      { name: 'Company Website', url: 'https://example.com' },
+      { name: 'LinkedIn', url: 'https://linkedin.com/company/example' }
+    ]
   },
   {
     id: 2,
     title: 'Leader Linehaul',
     company: 'Shopee Warehouse Pulau Indah',
     year: '2024 - 2025',
-    description: 'Led a logistics team to manage parcel movement and scheduling. Ensured accuracy, speed, and smooth coordination across linehaul operations.'
+    description: 'Led a logistics team to manage parcel movement and scheduling. Ensured accuracy, speed, and smooth coordination across linehaul operations.',
+    // To add clickable links, uncomment and customize:
+    // links: [
+    //   { name: 'Company Website', url: 'https://shopee.com' },
+    //   { name: 'LinkedIn', url: 'https://linkedin.com/company/shopee' }
+    // ]
   },
   {
     id: 3,
     title: 'Retail Promoter',
     company: 'Tiny Buttons Sdn Bhd',
     year: '2022 - 2023',
-    description: 'Assisted customers in choosing baby products and managing sales displays. Strengthened communication and customer service skills.'
+    description: 'Assisted customers in choosing baby products and managing sales displays. Strengthened communication and customer service skills.',
+    // To add clickable links, uncomment and customize:
+    // links: [
+    //   { name: 'Company Website', url: 'https://example.com' },
+    //   { name: 'Facebook', url: 'https://facebook.com/example' }
+    // ]
   }
 ]
 

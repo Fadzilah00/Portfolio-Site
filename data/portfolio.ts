@@ -21,7 +21,7 @@ export const projects: Project[] = [
     category: 'ui-ux',
     image: '/images/UI1.PNG',
     techStack: ['Figma', 'Adobe XD', 'Principle', 'Sketch'],
-    liveUrl: 'https://figma.com/project',
+    liveUrl: 'https://www.canva.com/design/DAGyvPT5Ch8/v6zwOMnSfL6qLWbEW-FDBA/edit?utm_content=DAGyvPT5Ch8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton',
     featured: true
   },
   {
@@ -32,7 +32,7 @@ export const projects: Project[] = [
     category: 'ui-ux',
     image: '/images/UI2.PNG',
     techStack: ['Figma', 'Adobe XD', 'Miro', 'User Research'],
-    liveUrl: 'https://figma.com/dashboard',
+    liveUrl: 'https://www.canva.com/design/DAG6qLP98P0/6cQJjtrf_fMAyD-RjrL1oA/edit?utm_content=DAG6qLP98P0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton',
     featured: false
   },
 
@@ -45,7 +45,7 @@ export const projects: Project[] = [
     category: 'testing',
     image: '/images/TEST1.png',
     techStack: ['Manual Testing', 'UAT', 'Integration Testing', 'Test Documentation', 'Bug Tracking'],
-    githubUrl: 'https://github.com/ainafadzilah/moneymate-testing',
+    liveUrl: 'https://drive.google.com/drive/folders/1xyzOMJ-x3modR_6FIg3YsDA57UHBFBDF',
     featured: true
   },
   {
@@ -56,7 +56,7 @@ export const projects: Project[] = [
     category: 'testing',
     image: '/images/TEST2.png',
     techStack: ['System Testing', 'Requirements Validation', 'Functional Testing', 'Integration Testing', 'Test Reporting'],
-    githubUrl: 'https://github.com/ainafadzilah/company-system-tests',
+    liveUrl: 'https://docs.google.com/document/d/1yrd3QmLm44eyrmRYdWZ76Y9gDXOczijwQYFvO20oKqA/edit?usp=sharing',
     featured: false
   },
 
@@ -69,7 +69,7 @@ export const projects: Project[] = [
     category: 'development',
     image: '/images/DEV1.png',
     techStack: ['Mobile Development', 'Financial APIs', 'Database Design', 'User Interface', 'Cross-Platform'],
-    liveUrl: 'https://moneymate-demo.com',
+    liveUrl: 'https://drive.google.com/file/d/1Lm4Y2S7C4qYvpNzgmASUJueEa15T2VmH/view?usp=drive_link',
     githubUrl: 'https://github.com/ainafadzilah/moneymate-app',
     featured: true
   },
@@ -81,7 +81,7 @@ export const projects: Project[] = [
     category: 'development',
     image: '/images/DEV2.png',
     techStack: ['Game Development', 'Mobile Gaming', 'Animation', 'Game Physics', 'Multiplayer'],
-    liveUrl: 'https://glow-hockey-demo.com',
+    liveUrl: 'https://drive.google.com/file/d/1Lm4Y2S7C4qYvpNzgmASUJueEa15T2VmH/view?usp=drive_link',
     githubUrl: 'https://github.com/ainafadzilah/glow-hockey-game',
     featured: false
   }
