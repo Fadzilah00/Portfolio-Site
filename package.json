@@ -5,10 +5,11 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "nuxt": "^3.8.0"
   },
   "devDependencies": {
     "@headlessui/vue": "^1.7.16",
@@ -16,8 +17,6 @@
     "@nuxt/devtools": "latest",
     "@nuxtjs/google-fonts": "^3.0.2",
     "@nuxtjs/tailwindcss": "^6.8.4",
-    "nuxt": "^3.8.0",
     "vue-tsc": "^2.0.0"
-  },
-  "dependencies": {}
+  }
 }
